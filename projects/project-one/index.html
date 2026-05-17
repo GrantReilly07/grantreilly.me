@@ -3,9 +3,186 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Project One | Your Name</title>
-    <meta name="description" content="Project One placeholder page.">
+    <title>32x32 LED Matrix Editor | Your Name</title>
+    <meta
+      name="description"
+      content="A virtual 32x32 LED matrix drawing editor for a Raspberry Pi LED matrix project."
+    >
     <link rel="stylesheet" href="../../style.css">
+    <style>
+      .matrix-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(300px, 0.58fr);
+        gap: 1rem;
+        align-items: start;
+      }
+
+      .matrix-panel {
+        display: grid;
+        gap: 1.25rem;
+      }
+
+      .matrix-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem;
+        align-items: end;
+      }
+
+      .color-control {
+        display: grid;
+        gap: 0.35rem;
+        color: var(--muted);
+        font-size: 0.84rem;
+        font-weight: 800;
+      }
+
+      .color-control input {
+        width: 3.1rem;
+        height: 2.65rem;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--surface);
+        cursor: pointer;
+        padding: 0.2rem;
+      }
+
+      .tool-button {
+        min-height: 2.65rem;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--surface);
+        color: var(--ink);
+        cursor: pointer;
+        font: inherit;
+        font-weight: 800;
+        padding: 0.65rem 0.85rem;
+      }
+
+      .tool-button:hover,
+      .tool-button:focus-visible {
+        border-color: rgba(40, 85, 217, 0.45);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(40, 85, 217, 0.12);
+      }
+
+      .tool-button.is-active,
+      .tool-button.primary {
+        border-color: var(--blue);
+        background: var(--blue);
+        color: #fff;
+      }
+
+      .tool-button.danger {
+        border-color: rgba(201, 77, 50, 0.4);
+        color: var(--coral);
+      }
+
+      .matrix-stage {
+        display: grid;
+        justify-items: center;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background:
+          linear-gradient(180deg, rgba(23, 32, 51, 0.98), rgba(10, 14, 22, 0.98));
+        padding: clamp(0.55rem, 2vw, 1rem);
+      }
+
+      .led-grid {
+        display: grid;
+        grid-template-columns: repeat(32, minmax(0, 1fr));
+        gap: 1px;
+        width: min(100%, 640px);
+        aspect-ratio: 1 / 1;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 6px;
+        background: #0a0d14;
+        padding: 0.35rem;
+        touch-action: none;
+        user-select: none;
+      }
+
+      .led-cell {
+        min-width: 0;
+        aspect-ratio: 1 / 1;
+        border: 0;
+        border-radius: 2px;
+        background: #000000;
+        cursor: crosshair;
+        padding: 0;
+      }
+
+      .led-cell:hover {
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+      }
+
+      .led-cell:focus-visible {
+        position: relative;
+        z-index: 1;
+        outline: 2px solid var(--coral);
+        outline-offset: 1px;
+      }
+
+      .export-panel {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .export-output {
+        width: 100%;
+        min-height: 34rem;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: #0f1420;
+        color: #edf3f6;
+        font-family:
+          "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+        font-size: 0.78rem;
+        line-height: 1.45;
+        padding: 1rem;
+        resize: vertical;
+      }
+
+      .matrix-meta {
+        color: var(--muted);
+      }
+
+      @media (max-width: 980px) {
+        .matrix-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .export-output {
+          min-height: 22rem;
+        }
+      }
+
+      @media (max-width: 520px) {
+        .matrix-toolbar {
+          align-items: stretch;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .color-control {
+          grid-column: 1 / -1;
+        }
+
+        .color-control input,
+        .tool-button {
+          width: 100%;
+        }
+
+        .matrix-stage {
+          padding: 0.45rem;
+        }
+
+        .led-grid {
+          padding: 0.22rem;
+        }
+      }
+    </style>
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to content</a>
@@ -28,55 +205,257 @@
     <main id="main-content">
       <section class="section page-hero">
         <div class="content-width">
-          <p class="eyebrow">Project placeholder</p>
-          <h1>Project One</h1>
+          <p class="eyebrow">Raspberry Pi LED matrix</p>
+          <h1>LED Matrix Editor</h1>
           <p class="lead">
-            Replace this with a short overview of the project, the problem it
-            solves, and the tools you used.
+            A virtual 32x32 LED matrix editor for designing frames before they
+            are sent to a Raspberry Pi controlled LED display.
           </p>
         </div>
       </section>
 
       <section class="section project-detail">
-        <div class="content-width detail-grid">
-          <div class="detail-main">
-            <article class="detail-panel">
-              <h2>Summary</h2>
-              <p>
-                Add the project story here. Include the goal, what you built,
-                and the most important result.
+        <div class="content-width matrix-layout">
+          <article class="detail-panel matrix-panel">
+            <div>
+              <h2>Draw a Frame</h2>
+              <p class="matrix-meta">
+                Each square maps to one LED pixel. The editor stores the frame
+                as 32 rows of 32 hex color strings for the future backend API.
               </p>
-            </article>
-
-            <article class="detail-panel">
-              <h2>What to add</h2>
-              <ul>
-                <li>Screenshot or demo link</li>
-                <li>Tools, languages, or frameworks used</li>
-                <li>Challenges and lessons learned</li>
-              </ul>
-            </article>
-          </div>
-
-          <aside class="detail-side" aria-label="Project details">
-            <div class="detail-panel">
-              <p class="summary-label">Status</p>
-              <p class="status-pill">Draft</p>
             </div>
-            <div class="detail-panel">
-              <p class="summary-label">Links</p>
-              <ul>
-                <li><a href="#">Live demo</a></li>
-                <li><a href="#">Source code</a></li>
-              </ul>
+
+            <div class="matrix-toolbar" aria-label="Matrix drawing tools">
+              <label class="color-control" for="draw-color">
+                <span>Draw color</span>
+                <input id="draw-color" type="color" value="#23d18b">
+              </label>
+              <button
+                id="draw-tool"
+                class="tool-button is-active"
+                type="button"
+                aria-pressed="true"
+              >
+                Draw
+              </button>
+              <button
+                id="erase-tool"
+                class="tool-button"
+                type="button"
+                aria-pressed="false"
+              >
+                Eraser
+              </button>
+              <button id="clear-frame" class="tool-button danger" type="button">
+                Clear
+              </button>
+              <button id="export-frame" class="tool-button primary" type="button">
+                Export Frame
+              </button>
             </div>
+
+            <div class="matrix-stage" aria-label="LED matrix canvas">
+              <div
+                id="led-grid"
+                class="led-grid"
+                role="grid"
+                aria-label="32 by 32 LED drawing grid"
+              ></div>
+            </div>
+          </article>
+
+          <aside class="detail-panel export-panel">
+            <div>
+              <p class="summary-label">Frame export</p>
+              <h2>JSON Output</h2>
+              <p class="matrix-meta">
+                The exported object is ready for the next phase, where the page
+                can post frames to an Azure Function for Raspberry Pi polling.
+              </p>
+            </div>
+            <textarea
+              id="frame-output"
+              class="export-output"
+              spellcheck="false"
+              readonly
+              aria-label="Exported LED matrix frame JSON"
+            ></textarea>
           </aside>
         </div>
       </section>
     </main>
 
     <footer class="site-footer">
-      <p>Replace this project footer when the page is ready.</p>
+      <p>Frontend prototype for the 32x32 LED matrix project.</p>
     </footer>
+
+    <script>
+      const MATRIX_WIDTH = 32;
+      const MATRIX_HEIGHT = 32;
+      const OFF_COLOR = "#000000";
+
+      const grid = document.querySelector("#led-grid");
+      const colorInput = document.querySelector("#draw-color");
+      const drawTool = document.querySelector("#draw-tool");
+      const eraseTool = document.querySelector("#erase-tool");
+      const clearButton = document.querySelector("#clear-frame");
+      const exportButton = document.querySelector("#export-frame");
+      const frameOutput = document.querySelector("#frame-output");
+
+      const pixels = Array.from({ length: MATRIX_HEIGHT }, () =>
+        Array.from({ length: MATRIX_WIDTH }, () => OFF_COLOR)
+      );
+      const gridCells = [];
+
+      let selectedColor = colorInput.value.toUpperCase();
+      let isErasing = false;
+      let isDrawing = false;
+
+      function createGrid() {
+        const cells = document.createDocumentFragment();
+
+        for (let row = 0; row < MATRIX_HEIGHT; row += 1) {
+          for (let col = 0; col < MATRIX_WIDTH; col += 1) {
+            const cell = document.createElement("button");
+            cell.type = "button";
+            cell.className = "led-cell";
+            cell.dataset.row = String(row);
+            cell.dataset.col = String(col);
+            cell.setAttribute("role", "gridcell");
+            cell.setAttribute(
+              "aria-label",
+              `Pixel ${col + 1}, ${row + 1}, ${OFF_COLOR}`
+            );
+            gridCells.push(cell);
+            cells.appendChild(cell);
+          }
+        }
+
+        grid.appendChild(cells);
+      }
+
+      function setTool(nextTool) {
+        isErasing = nextTool === "erase";
+        drawTool.classList.toggle("is-active", !isErasing);
+        eraseTool.classList.toggle("is-active", isErasing);
+        drawTool.setAttribute("aria-pressed", String(!isErasing));
+        eraseTool.setAttribute("aria-pressed", String(isErasing));
+      }
+
+      function getPaintColor() {
+        return isErasing ? OFF_COLOR : selectedColor;
+      }
+
+      function paintCell(cell) {
+        if (!cell || !grid.contains(cell)) {
+          return;
+        }
+
+        const row = Number(cell.dataset.row);
+        const col = Number(cell.dataset.col);
+        const color = getPaintColor();
+
+        pixels[row][col] = color;
+        cell.style.backgroundColor = color;
+        cell.setAttribute(
+          "aria-label",
+          `Pixel ${col + 1}, ${row + 1}, ${color}`
+        );
+      }
+
+      function getCellAtPoint(event) {
+        const target = document.elementFromPoint(event.clientX, event.clientY);
+        return target ? target.closest(".led-cell") : null;
+      }
+
+      function exportFrame() {
+        const frame = {
+          width: MATRIX_WIDTH,
+          height: MATRIX_HEIGHT,
+          pixels: pixels.map((row) => [...row])
+        };
+
+        frameOutput.value = JSON.stringify(frame, null, 2);
+      }
+
+      function clearFrame() {
+        pixels.forEach((row) => {
+          row.fill(OFF_COLOR);
+        });
+
+        gridCells.forEach((cell, index) => {
+          const row = Math.floor(index / MATRIX_WIDTH);
+          const col = index % MATRIX_WIDTH;
+
+          cell.style.backgroundColor = OFF_COLOR;
+          cell.setAttribute(
+            "aria-label",
+            `Pixel ${col + 1}, ${row + 1}, ${OFF_COLOR}`
+          );
+        });
+
+        exportFrame();
+      }
+
+      colorInput.addEventListener("input", (event) => {
+        selectedColor = event.target.value.toUpperCase();
+        setTool("draw");
+      });
+
+      drawTool.addEventListener("click", () => {
+        setTool("draw");
+      });
+
+      eraseTool.addEventListener("click", () => {
+        setTool("erase");
+      });
+
+      clearButton.addEventListener("click", clearFrame);
+      exportButton.addEventListener("click", exportFrame);
+
+      grid.addEventListener("pointerdown", (event) => {
+        const cell = event.target.closest(".led-cell");
+
+        if (!cell) {
+          return;
+        }
+
+        event.preventDefault();
+        isDrawing = true;
+        paintCell(cell);
+      });
+
+      grid.addEventListener("pointermove", (event) => {
+        if (!isDrawing) {
+          return;
+        }
+
+        event.preventDefault();
+        paintCell(getCellAtPoint(event));
+      });
+
+      grid.addEventListener("click", (event) => {
+        const cell = event.target.closest(".led-cell");
+
+        if (cell) {
+          paintCell(cell);
+        }
+      });
+
+      window.addEventListener("pointerup", () => {
+        isDrawing = false;
+      });
+
+      window.addEventListener("pointercancel", () => {
+        isDrawing = false;
+      });
+
+      window.addEventListener("blur", () => {
+        isDrawing = false;
+      });
+
+      createGrid();
+      exportFrame();
+    </script>
   </body>
 </html>

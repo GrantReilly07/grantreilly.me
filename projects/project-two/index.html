@@ -3,80 +3,104 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Project Two | Your Name</title>
-    <meta name="description" content="Project Two placeholder page.">
+    <title>Met Color | Grant Reilly</title>
+    <meta name="description" content="Choose an RGB color and discover the closest matching artwork in the Metropolitan Museum of Art collection. A Java and Azure Functions project by Grant Reilly.">
     <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="met-color.css">
+    <script type="module" src="met-color.js"></script>
   </head>
-  <body>
+  <body class="met-color-page">
     <a class="skip-link" href="#main-content">Skip to content</a>
-
     <header class="site-header">
-      <a class="brand" href="../../" aria-label="Home">
-        <span class="brand-mark" aria-hidden="true"></span>
-        <span>Your Name</span>
-      </a>
-
+      <a class="brand" href="../../" aria-label="Home"><span class="brand-mark" aria-hidden="true"></span><span>Grant Reilly</span></a>
       <nav class="top-nav" aria-label="Primary navigation">
-        <a href="../../">Home</a>
-        <a href="../">Projects</a>
-        <a href="../project-one/">Project One</a>
-        <a href="./" aria-current="page">Project Two</a>
-        <a href="../project-three/">Project Three</a>
+        <a href="../../">Home</a><a href="../">Projects</a><a href="../project-one/">Project One</a>
+        <a href="./" aria-current="page">Project Two</a><a href="../project-three/">Project Three</a>
       </nav>
     </header>
-
     <main id="main-content">
-      <section class="section page-hero">
+      <section class="section page-hero color-hero">
         <div class="content-width">
-          <p class="eyebrow">Project placeholder</p>
-          <h1>Project Two</h1>
-          <p class="lead">
-            Replace this with a short overview of the project, the problem it
-            solves, and the tools you used.
-          </p>
+          <p class="eyebrow">Project 02 / Met Color</p>
+          <h1>Find art in<br><span>your color.</span></h1>
+          <p class="lead">A different way to explore the Metropolitan Museum of Art. Pick a color and discover the artwork whose average RGB color comes closest.</p>
+          <div class="project-tools" aria-label="Built with"><span>Java</span><span>Azure Functions</span><span>Met Open Access</span></div>
+          <div class="hero-actions">
+            <a class="button primary" href="#demo">Try the demo <span aria-hidden="true">↘</span></a>
+            <a class="button secondary" href="https://github.com/GrantReilly07/met-color">View source code <span aria-hidden="true">↗</span></a>
+          </div>
         </div>
       </section>
-
-      <section class="section project-detail">
-        <div class="content-width detail-grid">
-          <div class="detail-main">
-            <article class="detail-panel">
-              <h2>Summary</h2>
-              <p>
-                Add the project story here. Include the goal, what you built,
-                and the most important result.
-              </p>
-            </article>
-
-            <article class="detail-panel">
-              <h2>What to add</h2>
-              <ul>
-                <li>Screenshot or demo link</li>
-                <li>Tools, languages, or frameworks used</li>
-                <li>Challenges and lessons learned</li>
-              </ul>
+      <section id="demo" class="section color-demo" aria-labelledby="demo-heading">
+        <div class="content-width">
+          <div class="demo-heading"><div><p class="eyebrow">Explore the collection</p><h2 id="demo-heading">Start with a color.</h2></div><p>No art history knowledge required.</p></div>
+          <div class="color-workspace">
+            <form id="color-form" class="picker-panel">
+              <fieldset id="picker-controls" disabled>
+                <legend>Choose your color</legend>
+                <p class="picker-help" id="wheel-help">Drag around the wheel for hue and saturation. Adjust brightness below, or enter RGB values.</p>
+                <div class="wheel-wrap">
+                  <div id="color-wheel" class="color-wheel" role="slider" tabindex="0" aria-label="Color wheel hue" aria-valuemin="0" aria-valuemax="359" aria-valuenow="135" aria-describedby="wheel-help wheel-keys">
+                    <span id="wheel-shade" class="wheel-shade" aria-hidden="true"></span><span id="wheel-marker" class="wheel-marker" aria-hidden="true"></span>
+                  </div>
+                </div>
+                <p id="wheel-keys" class="sr-only">Use Left and Right for hue, Up and Down for saturation. Hold Shift for larger steps. You can also use the RGB fields.</p>
+                <label class="brightness-label" for="brightness">Brightness <output id="brightness-value" for="brightness">52%</output></label>
+                <input id="brightness" class="brightness-slider" type="range" min="0" max="100" step="0.1" value="52" aria-label="Color brightness">
+                <div class="color-preview"><span id="selected-swatch" class="selected-swatch" aria-hidden="true"></span><div><span class="small-label">Selected color</span><strong id="selected-hex">#68856F</strong><span id="selected-rgb">RGB (104, 133, 111)</span></div></div>
+                <div class="rgb-fields">
+                  <label for="red"><span>Red</span><input id="red" name="red" type="number" min="0" max="255" step="1" value="104" required inputmode="numeric"></label>
+                  <label for="green"><span>Green</span><input id="green" name="green" type="number" min="0" max="255" step="1" value="133" required inputmode="numeric"></label>
+                  <label for="blue"><span>Blue</span><input id="blue" name="blue" type="number" min="0" max="255" step="1" value="111" required inputmode="numeric"></label>
+                </div>
+                <p class="field-hint">Each channel takes a whole number from 0 to 255.</p>
+                <button id="find-match" class="button primary find-match" type="submit">Find matching artwork <span aria-hidden="true">→</span></button>
+              </fieldset>
+              <p id="search-status" class="search-status" role="status" aria-live="polite"></p>
+              <noscript><p>Enable JavaScript to choose a color and search for an artwork.</p></noscript>
+            </form>
+            <article id="result-panel" class="result-panel" aria-label="Artwork search result" aria-busy="false">
+              <div id="empty-result" class="empty-result">
+                <div class="empty-palette" aria-hidden="true"><span></span><span></span><span></span></div>
+                <p class="eyebrow">A color. A connection.</p><h3>Your next art discovery<br>starts here.</h3>
+                <p>Choose a color, then find its closest match in the collection. Your artwork and its story will appear here.</p>
+              </div>
+              <div id="match-result" hidden>
+                <div class="result-intro"><p class="eyebrow">Your closest match</p><h2 id="result-heading">Artwork match</h2><p id="artwork-byline" class="artwork-byline"></p><a id="object-link" class="text-link" target="_blank" rel="noopener noreferrer">View at The Met <span aria-hidden="true">↗</span></a></div>
+                <div id="match-colors" class="match-colors"></div><p id="match-distance" class="match-distance"></p>
+                <figure id="artwork-figure" class="artwork-figure" hidden>
+                  <a id="full-image-link" target="_blank" rel="noopener noreferrer" aria-label="Open full-size artwork image"><img id="artwork-image" alt="" decoding="async" referrerpolicy="no-referrer"></a><figcaption id="image-caption"></figcaption>
+                </figure>
+                <div class="artwork-notice"><p id="artwork-status" role="status" aria-live="polite"></p><button id="retry-details" class="button secondary" type="button" hidden>Try loading details again</button></div>
+                <div id="artwork-overview" class="artwork-overview" hidden></div>
+                <details id="catalog-details" class="catalog-details" hidden><summary>Explore the full collection record</summary><p class="catalog-note">Every field returned by the Met, including contributors, measurements, tags, and external references. Empty fields are marked “Not provided.”</p><dl id="catalog-fields" class="catalog-fields"></dl></details>
+              </div>
             </article>
           </div>
-
-          <aside class="detail-side" aria-label="Project details">
-            <div class="detail-panel">
-              <p class="summary-label">Status</p>
-              <p class="status-pill">Draft</p>
-            </div>
-            <div class="detail-panel">
-              <p class="summary-label">Links</p>
-              <ul>
-                <li><a href="#">Live demo</a></li>
-                <li><a href="#">Source code</a></li>
-              </ul>
-            </div>
-          </aside>
+        </div>
+      </section>
+      <section class="section about-section" aria-labelledby="about-heading">
+        <div class="content-width two-column">
+          <div><p class="eyebrow">The project</p><h2 id="about-heading">A museum, sorted<br>by color.</h2></div>
+          <div class="copy-block">
+            <p>Met Color connects a simple RGB value to an artwork in the Met's collection. I built a Java program to calculate average colors from artwork images, then an Azure Functions backend to find the nearest match.</p>
+            <p>The image data comes from a Met Open Access dataset on Hugging Face. The generator uses a selected list of artworks in two-dimensional mediums and saves each image's average red, green, and blue values to a CSV.</p>
+            <p>Think of the average as the whole image reduced to a single swatch. It includes every pixel, including backgrounds and borders, so a colorful painting can still average to a quiet, neutral tone.</p>
+          </div>
+        </div>
+      </section>
+      <section id="how-it-works" class="section" aria-labelledby="how-heading">
+        <div class="content-width">
+          <div class="section-heading"><p class="eyebrow">Behind the match</p><h2 id="how-heading">From pixels to paintings.</h2></div>
+          <ol class="process-steps">
+            <li><span class="step-number">01</span><h3>Calculate once</h3><p>The Java generator downloads each image, adds up every pixel's RGB channels, and divides by the number of pixels. The result is one saved average color per artwork.</p></li>
+            <li><span class="step-number">02</span><h3>Find the nearest color</h3><p>The backend loads those colors into memory and compares them to your selection. It returns the artwork with the smallest squared RGB distance.</p><code>d² = (R − r)² + (G − g)² + (B − b)²</code></li>
+            <li><span class="step-number">03</span><h3>Meet the artwork</h3><p>This page uses the matching object ID to request the Met's collection record, then displays the original image and catalog details.</p></li>
+          </ol>
+          <div class="project-footnote"><p>RGB distance measures numerical closeness, so the closest average won't always look like the closest color to your eyes. The demo searches the project's saved selection, rather than every artwork in the museum.</p><a class="text-link" href="https://github.com/GrantReilly07/met-color">Explore the Java backend ↗</a><a class="text-link" href="https://metmuseum.github.io/">About the Met Collection API ↗</a></div>
         </div>
       </section>
     </main>
-
-    <footer class="site-footer">
-      <p>Replace this project footer when the page is ready.</p>
-    </footer>
+    <footer class="site-footer"><p>Built by Grant Reilly. Artwork images and collection records courtesy of The Metropolitan Museum of Art.</p></footer>
   </body>
 </html>

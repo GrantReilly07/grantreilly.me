@@ -2,12 +2,12 @@
   "name": "grantreilly-me-api",
   "version": "1.0.0",
   "private": true,
-  "description": "Azure Static Web Apps API for the LED matrix project.",
+  "description": "Azure Static Web Apps API for the LED matrix and Met Color projects.",
   "engines": {
-    "node": ">=18"
+    "node": "22.x"
   },
   "scripts": {
-    "test": "node test/validate-frame.test.js"
+    "test": "node test/validate-frame.test.js && node --test test/color-match.test.js ../test/color-utils.test.mjs"
   },
   "dependencies": {
     "@azure/storage-blob": "^12.17.0"

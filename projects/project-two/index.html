@@ -22,7 +22,7 @@
       <section class="section page-hero color-hero">
         <div class="content-width">
           <p class="eyebrow">Project 02 / Met Color</p>
-          <h1>Find art in<br><span>your color.</span></h1>
+          <h1>MET Color</h1>
           <p class="lead">A different way to explore the Metropolitan Museum of Art. Pick a color and discover the artwork whose average RGB color comes closest.</p>
           <div class="project-tools" aria-label="Built with"><span>Java</span><span>Azure Functions</span><span>Met Open Access</span></div>
           <div class="hero-actions">
@@ -33,7 +33,7 @@
       </section>
       <section id="demo" class="section color-demo" aria-labelledby="demo-heading">
         <div class="content-width">
-          <div class="demo-heading"><div><p class="eyebrow">Explore the collection</p><h2 id="demo-heading">Start with a color.</h2></div><p>No art history knowledge required.</p></div>
+          <div class="demo-heading"><div><p class="eyebrow">Explore the collection</p><h2 id="demo-heading">Pick any color.</h2></div><p>No art history knowledge required.</p></div>
           <div class="color-workspace">
             <form id="color-form" class="picker-panel">
               <fieldset id="picker-controls" disabled>
@@ -62,8 +62,8 @@
             <article id="result-panel" class="result-panel" aria-label="Artwork search result" aria-busy="false">
               <div id="empty-result" class="empty-result">
                 <div class="empty-palette" aria-hidden="true"><span></span><span></span><span></span></div>
-                <p class="eyebrow">A color. A connection.</p><h3>Your next art discovery<br>starts here.</h3>
-                <p>Choose a color, then find its closest match in the collection. Your artwork and its story will appear here.</p>
+                <p class="eyebrow">Choose a color</p><h3>The closest artpiece<br>will appear here.</h3>
+                <p>Of 612,688 artworks stored in the met database, only 42,910 are open source, 2D mediums and have an image. Some colors may not have a very close match.</p>
               </div>
               <div id="match-result" hidden>
                 <div class="result-intro"><p class="eyebrow">Your closest match</p><h2 id="result-heading">Artwork match</h2><p id="artwork-byline" class="artwork-byline"></p><a id="object-link" class="text-link" target="_blank" rel="noopener noreferrer">View at The Met <span aria-hidden="true">↗</span></a></div>
@@ -81,21 +81,21 @@
       </section>
       <section class="section about-section" aria-labelledby="about-heading">
         <div class="content-width two-column">
-          <div><p class="eyebrow">The project</p><h2 id="about-heading">A museum, sorted<br>by color.</h2></div>
+          <div><p class="eyebrow">The project</p><h2 id="about-heading">How does it work?</h2></div>
           <div class="copy-block">
-            <p>Met Color connects a simple RGB value to an artwork in the Met's collection. I built a Java program to calculate average colors from artwork images, then an Azure Functions backend to find the nearest match.</p>
-            <p>The image data comes from a Met Open Access dataset on Hugging Face. The generator uses a selected list of artworks in two-dimensional mediums and saves each image's average red, green, and blue values to a CSV.</p>
+            <p>Met Color connects a simple RGB value to an artwork in the Met's collection. I built a Java program leveraging Sksamuel's Scrimage library to calculate average colors from artwork images, then an Azure Functions backend to find the nearest match.</p>
+            <p>The image data comes from a combination of a Met Open Access dataset on Hugging Face and the official Met Museum API. The generator uses a selected list of artworks in two-dimensional mediums and saves each image's average red, green, and blue values to a CSV.</p>
             <p>Think of the average as the whole image reduced to a single swatch. It includes every pixel, including backgrounds and borders, so a colorful painting can still average to a quiet, neutral tone.</p>
           </div>
         </div>
       </section>
       <section id="how-it-works" class="section" aria-labelledby="how-heading">
         <div class="content-width">
-          <div class="section-heading"><p class="eyebrow">Behind the match</p><h2 id="how-heading">From pixels to paintings.</h2></div>
+          <div class="section-heading"><p class="eyebrow">the website backend</p><h2 id="how-heading">Which picture gets displayed?</h2></div>
           <ol class="process-steps">
-            <li><span class="step-number">01</span><h3>Calculate once</h3><p>The Java generator downloads each image, adds up every pixel's RGB channels, and divides by the number of pixels. The result is one saved average color per artwork.</p></li>
-            <li><span class="step-number">02</span><h3>Find the nearest color</h3><p>The backend loads those colors into memory and compares them to your selection. It returns the artwork with the smallest squared RGB distance.</p><code>d² = (R − r)² + (G − g)² + (B − b)²</code></li>
-            <li><span class="step-number">03</span><h3>Meet the artwork</h3><p>This page uses the matching object ID to request the Met's collection record, then displays the original image and catalog details.</p></li>
+            <li><span class="step-number">01</span><h3>Calculate once</h3><p>The Java generator downloads each image, adds up every pixel's RGB channels, and divides by the number of pixels. The result is a csv of a snapshot of the average colors of currently available artworks.</p></li>
+            <li><span class="step-number">02</span><h3>Find the nearest color</h3><p>The backend loads those colors into memory and compares them to your selection. It returns the artwork with the smallest squared RGB distance.</p><code>d² = (R−r)² + (G−g)² + (B−b)²</code></li>
+            <li><span class="step-number">03</span><h3>Display the artwork</h3><p>This page uses the matching object ID to request the Met's collection record from the official Met Museum API, then displays the original image and catalog details.</p></li>
           </ol>
           <div class="project-footnote"><p>RGB distance measures numerical closeness, so the closest average won't always look like the closest color to your eyes. The demo searches the project's saved selection, rather than every artwork in the museum.</p><a class="text-link" href="https://github.com/GrantReilly07/met-color">Explore the Java backend ↗</a><a class="text-link" href="https://metmuseum.github.io/">About the Met Collection API ↗</a></div>
         </div>

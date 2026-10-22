@@ -4,7 +4,6 @@
 .met-color-page .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .color-hero { padding-bottom: 4rem; }
 .color-hero h1 { max-width: 16ch; font-size: clamp(3.4rem, 7vw, 6.5rem); line-height: 1.02; }
-.color-hero h1 span { color: var(--green); }
 .color-hero .lead { max-width: 40rem; }
 .project-tools { display: flex; flex-wrap: wrap; gap: 0.6rem 1.2rem; color: var(--muted); font-size: 0.85rem; font-weight: 700; }
 .project-tools span + span::before { content: "/"; margin-right: 1.2rem; color: #9ca8b5; }

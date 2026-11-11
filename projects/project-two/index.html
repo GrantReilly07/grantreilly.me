@@ -12,17 +12,20 @@
   <body class="met-color-page">
     <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="site-header">
-      <a class="brand" href="../../" aria-label="Home"><span class="brand-mark" aria-hidden="true"></span><span>Grant Reilly</span></a>
+      <a class="brand" href="../../" aria-label="Grant Reilly — Home"><span class="brand-mark" aria-hidden="true">GR</span><span>Grant Reilly</span></a>
       <nav class="top-nav" aria-label="Primary navigation">
-        <a href="../../">Home</a><a href="../">Projects</a><a href="../project-one/">Project One</a>
-        <a href="./" aria-current="page">Project Two</a><a href="../project-three/">Project Three</a>
+        <a href="../../">Home</a>
+        <a href="../">Projects</a>
+        <a href="../project-one/">LED Matrix</a>
+        <a href="../project-two/" aria-current="page">Met Color</a>
+        <a href="../project-three/">Project Three</a>
       </nav>
     </header>
     <main id="main-content">
       <section class="section page-hero color-hero">
         <div class="content-width">
           <p class="eyebrow">Project 02 / Met Color</p>
-          <h1>MET Color</h1>
+          <h1>Met Color<span aria-hidden="true">.</span></h1>
           <p class="lead">A different way to explore the Metropolitan Museum of Art. Pick a color and discover the artwork whose average RGB color comes closest.</p>
           <div class="project-tools" aria-label="Built with"><span>Java</span><span>Azure Functions</span><span>Met Open Access</span></div>
           <div class="hero-actions">
@@ -61,8 +64,8 @@
             </form>
             <article id="result-panel" class="result-panel" aria-label="Artwork search result" aria-busy="false">
               <div id="empty-result" class="empty-result">
-                <div class="empty-palette" aria-hidden="true"><span></span><span></span><span></span></div>
-                <p class="eyebrow">Choose a color</p><h3>The closest artpiece<br>will appear here.</h3>
+                <div class="gallery-placeholder" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="6" y="6" width="36" height="36" rx="2"/><circle cx="17" cy="17" r="3"/><path d="m6 34 12-12 9 9 6-6 9 9"/></svg></div>
+                <p class="eyebrow">Choose a color</p><h3>A color becomes<br>a connection.</h3>
                 <p>Of 612,688 artworks stored in the met database, only 42,910 are open source, 2D mediums and have an image. Some colors may not have a very close match.</p>
               </div>
               <div id="match-result" hidden>
@@ -91,7 +94,7 @@
       </section>
       <section id="how-it-works" class="section" aria-labelledby="how-heading">
         <div class="content-width">
-          <div class="section-heading"><p class="eyebrow">the website backend</p><h2 id="how-heading">Which picture gets displayed?</h2></div>
+          <div class="section-heading"><div><p class="eyebrow">The website backend</p><h2 id="how-heading">Which picture gets displayed?</h2></div></div>
           <ol class="process-steps">
             <li><span class="step-number">01</span><h3>Calculate once</h3><p>The Java generator downloads each image, adds up every pixel's RGB channels, and divides by the number of pixels. The result is a csv of a snapshot of the average colors of currently available artworks.</p></li>
             <li><span class="step-number">02</span><h3>Find the nearest color</h3><p>The backend loads those colors into memory and compares them to your selection. It returns the artwork with the smallest squared RGB distance.</p><code>d² = (R−r)² + (G−g)² + (B−b)²</code></li>

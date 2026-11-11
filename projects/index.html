@@ -4,74 +4,63 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Projects | Grant Reilly</title>
-    <meta name="description" content="Explore Grant Reilly's personal projects, including Met Color, an interactive artwork color matcher.">
+    <meta name="description" content="Engineering and software projects by Grant Reilly: a 32 × 32 LED Matrix Editor, Met Color artwork matcher, and work in progress.">
     <link rel="stylesheet" href="../style.css">
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to content</a>
-
     <header class="site-header">
-      <a class="brand" href="../" aria-label="Home">
-        <span class="brand-mark" aria-hidden="true"></span>
-        <span>Grant Reilly</span>
-      </a>
-
+      <a class="brand" href="../" aria-label="Grant Reilly — Home"><span class="brand-mark" aria-hidden="true">GR</span><span>Grant Reilly</span></a>
       <nav class="top-nav" aria-label="Primary navigation">
         <a href="../">Home</a>
         <a href="./" aria-current="page">Projects</a>
-        <a href="./project-one/">Project One</a>
-        <a href="./project-two/">Project Two</a>
+        <a href="./project-one/">LED Matrix</a>
+        <a href="./project-two/">Met Color</a>
         <a href="./project-three/">Project Three</a>
       </nav>
     </header>
-
     <main id="main-content">
       <section class="section page-hero">
-        <div class="content-width">
-          <p class="eyebrow">Project directory</p>
-          <h1>Projects</h1>
-          <p class="lead">
-            Here are a few of the projects that I'm the most proud of.
-          </p>
-        </div>
+        <div class="content-width"><p class="eyebrow">The project directory</p><h1>Built to explore.</h1><p class="lead">Hands-on experiments at the intersection of hardware, software, and engineering design. Open a project and try it for yourself.</p></div>
       </section>
+      <section class="section project-detail" aria-labelledby="directory-heading">
+        <div class="content-width">
+          <div class="section-heading"><div><p class="eyebrow">The workbench</p><h2 id="directory-heading">Projects &amp; experiments</h2></div><p>Working tools and a little room for what's next.</p></div>
+          <div class="project-grid">
+            <article class="project-card">
+              <div class="card-topline"><span class="project-number">/01</span><span class="status-pill">Interactive editor</span></div>
+              <div class="project-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg></div>
+              <p class="card-kicker">Hardware / software</p>
+              <h3>LED Matrix Editor</h3>
+              <p>Design a frame, pixel by pixel. A working 32 × 32 editor for a Raspberry Pi controlled LED display.</p>
+              <div class="tag-list" aria-label="Project technologies and status"><span class="tag">JavaScript</span><span class="tag">Raspberry Pi</span><span class="tag">Azure</span></div>
+              <a href="./project-one/">Open the editor<span aria-hidden="true">↗</span></a>
+            </article>
 
-      <section class="section project-detail">
-        <div class="content-width project-grid">
-          <article class="project-card">
-            <p class="card-kicker">Blank page</p>
-            <h3>Project One</h3>
-            <p>
-              In progress
-            </p>
-            <a href="./project-one/">Open page</a>
-          </article>
+            <article class="project-card">
+              <div class="card-topline"><span class="project-number">/02</span><span class="status-pill">Interactive demo</span></div>
+              <div class="project-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8" cy="8" r="1.5"/><path d="m3 17 6-6 4 4 3-3 5 5"/></svg></div>
+              <p class="card-kicker">Color / computation</p>
+              <h3>Met Color</h3>
+              <p>Pick an RGB color and discover the closest matching artwork in the Met's collection, with its image and collection details.</p>
+              <div class="tag-list" aria-label="Project technologies and status"><span class="tag">Java</span><span class="tag">Azure Functions</span><span class="tag">Met API</span></div>
+              <a href="./project-two/">Find your color match<span aria-hidden="true">↗</span></a>
+            </article>
 
-          <article class="project-card">
-            <p class="card-kicker">Project Two · Java / Azure</p>
-            <h3>Met Color</h3>
-            <p>
-              Choose any RGB color and discover the artwork with the closest
-              average color in the Met's collection. Explore the image and its
-              full collection record in the live demo.
-            </p>
-            <a href="./project-two/">Find your color match →</a>
-          </article>
-
-          <article class="project-card">
-            <p class="card-kicker">Blank page</p>
-            <h3>Project Three</h3>
-            <p>
-              In progress
-            </p>
-            <a href="./project-three/">Open page</a>
-          </article>
+            <article class="project-card draft">
+              <div class="card-topline"><span class="project-number">/03</span><span class="status-pill">In progress</span></div>
+              <div class="project-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4v16M4 12h16"/></svg></div>
+              <p class="card-kicker">On the workbench</p>
+              <h3>Project Three</h3>
+              <p>A project in progress. This space will hold the build notes and details as it develops.</p>
+              <div class="tag-list" aria-label="Project technologies and status"><span class="tag">Work in progress</span></div>
+              <a href="./project-three/">View project status<span aria-hidden="true">↗</span></a>
+            </article>
+          </div>
+          <div class="directory-note"><p>Every project is a chance to build, test, and learn.</p><a class="text-link" href="https://github.com/GrantReilly07">More on GitHub <span aria-hidden="true">↗</span></a></div>
         </div>
       </section>
     </main>
-
-    <footer class="site-footer">
-      <p>Built by Grant Reilly for personal projects and notes.</p>
-    </footer>
+    <footer class="site-footer"><p>Grant Reilly · Engineering &amp; software</p><a href="./">Explore the projects <span aria-hidden="true">&nbsp;↗</span></a></footer>
   </body>
 </html>

@@ -1,0 +1,40 @@
+.matrix-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.56fr); gap: 1.5rem; align-items: start; }
+.matrix-panel { display: grid; gap: 1.5rem; }
+.matrix-panel .panel-label { margin-bottom: 1rem; }
+.matrix-meta { color: var(--secondary); font-size: 0.85rem; margin-bottom: 0; }
+.matrix-toolbar { display: flex; flex-wrap: wrap; gap: 0.7rem; align-items: end; padding: 1rem; border: 1px solid #353942; border-radius: var(--radius); background: var(--bg); box-shadow: var(--inset-sm); }
+.color-control { display: grid; gap: 0.45rem; color: var(--secondary); font: 0.65rem/1.5 var(--mono); text-transform: uppercase; letter-spacing: 0.06em; }
+.color-control input { width: 3.5rem; height: 48px; border: 1px solid var(--control-border); border-radius: var(--radius-sm); background: var(--recessed); box-shadow: var(--inset-sm); cursor: pointer; padding: 0.35rem; }
+.tool-button { min-width: 5rem; padding-inline: 0.9rem; gap: 0.6rem; }
+.save-status { min-height: 1.5rem; margin: 0; padding-left: 0.2rem; color: var(--secondary); font: 0.75rem/1.7 var(--mono); overflow-wrap: anywhere; }
+.save-status.success { color: var(--green); }
+.save-status.error { color: var(--coral); }
+.matrix-stage { display: grid; justify-items: center; min-width: 0; border: 1px solid #363a43; border-radius: var(--radius); background: #17191e; box-shadow: var(--inset-lg); padding: clamp(0.6rem, 2vw, 1.4rem); }
+.matrix-stage-label { display: flex; justify-content: space-between; width: 100%; gap: 1rem; margin: 0 0 1rem; color: var(--muted); font: 0.6rem/1.5 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; }
+.led-grid { display: grid; grid-template-columns: repeat(32, minmax(0, 1fr)); gap: 1px; width: min(100%, 640px); aspect-ratio: 1; border: 1px solid #454952; border-radius: 4px; background: #272b32; padding: 0.35rem; touch-action: none; user-select: none; }
+/* Keep all 1,024 pixels free of the housing's shadows and transitions. */
+.led-cell { min-width: 0; aspect-ratio: 1; border: 0; border-radius: 1px; background: #000; cursor: crosshair; padding: 0; }
+.led-cell:hover { outline: 1px solid #a5abb6; outline-offset: -1px; }
+.led-cell:focus-visible { position: relative; z-index: 1; outline: 2px solid var(--focus); outline-offset: 0; }
+.export-panel { display: grid; gap: 1.5rem; }
+.export-panel h2 { font-size: 1.3rem; }
+.export-output { width: 100%; min-height: 37rem; padding: 1rem; color: var(--secondary); font: 0.73rem/1.65 var(--mono); resize: vertical; tab-size: 2; }
+@media (max-width: 1024px) {
+  .matrix-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 0.65fr); }
+  .matrix-panel, .export-panel { padding: 1.25rem; }
+  .matrix-toolbar { padding: 0.8rem; }
+}
+@media (max-width: 800px) {
+  .matrix-layout { grid-template-columns: 1fr; }
+  .export-output { min-height: 20rem; }
+}
+@media (max-width: 520px) {
+  .matrix-toolbar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; }
+  .color-control { grid-column: 1 / -1; }
+  .color-control input { width: 100%; }
+  .tool-button { width: 100%; min-width: 0; font-size: 0.76rem; padding-inline: 0.4rem; }
+  .matrix-panel, .export-panel { padding: 1rem; }
+  .matrix-stage { padding: 0.5rem; }
+  .matrix-stage-label { font-size: 0.55rem; gap: 0.5rem; margin-bottom: 0.7rem; }
+  .led-grid { padding: 0.2rem; }
+}
